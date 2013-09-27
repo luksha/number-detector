@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.infobip.numberdetector"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="17" />
+    
+    <!-- REQUIRED PERMISSIONS -->
+	<!-- Custom permission declared so that only your application can receive your notifications. -->
+	<permission
+	    android:name="com.infobip.numberdetector.permission.C2D_MESSAGE"
+	    android:protectionLevel="signature" />	
+	
+	<!-- Previously custom defined permission -->
+	<uses-permission android:name="com.infobip.numberdetector.permission.C2D_MESSAGE" />
+	<!-- Permission to receive push notifications -->
+	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+	<!-- Connect to the Infobip Push service -->
+	<uses-permission android:name="android.permission.INTERNET" />
+	<!-- Using push notifications require a Google account -->
+	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+	<!-- Keeps the processor from sleeping when a message is received -->
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+	<!-- Checks network state -->
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<!-- REQUIRED PERMISSIONS -->
+	
+	<!-- OPTIONAL PERMISSIONS -->
+	<!-- Needed for push notifications that contain VIBRATE flag. Optional, but recommended. -->
+	<uses-permission android:name="android.permission.VIBRATE" />
+	<!-- OPTIONAL PERMISSIONS -->
+	
+	<uses-permission android:name="android.permission.SEND_SMS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.infobip.numberdetector.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <!-- REQUIRED SERVICES -->
+    <service android:name="com.infobip.push.lib.InfobipPushService"/>
+    <!-- REQUIRED SERVICES -->
+
+    <!-- REQUIRED RECEIVERS -->
+    <receiver android:name="com.infobip.push.lib.InfobipPushReceiver"
+              android:permission="com.google.android.c2dm.permission.SEND">
+        <intent-filter>
+            <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
+            <category android:name="com.infobip.numberdetector"/>
+        </intent-filter>
+    </receiver>
+
+    <receiver android:name="com.infobip.push.lib.InternalReceiver" />
+
+    <receiver android:name=".PushReceiver"
+            android:permission="com.infobip.numberdetector.C2D_MESSAGE">
+        <intent-filter>
+            <action android:name="com.infobip.push.intent.REGISTERED_FOR_NOTIFICATIONS"/>
+            <action android:name="com.infobip.push.intent.REGISTRATION_REFRESHED"/>
+            <action android:name="com.infobip.push.intent.UNREGISTERED_FROM_NOTIFICATIONS"/>
+            <action android:name="com.infobip.push.intent.NOTIFICATION_RECEIVED"/>
+            <action android:name="com.infobip.push.intent.NOTIFICATION_OPENED"/>
+            <action android:name="com.infobip.push.intent.ERROR"/>
+
+            <category android:name="com.infobip.numberdetector"/>
+        </intent-filter>
+    </receiver>
+    <!-- REQUIRED RECEIVERS -->
+    </application>
+
+</manifest>
