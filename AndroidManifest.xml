@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="17" />
+        android:targetSdkVersion="18" />
     
     <!-- REQUIRED PERMISSIONS -->
 	<!-- Custom permission declared so that only your application can receive your notifications. -->

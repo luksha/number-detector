@@ -13,23 +13,20 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText1"
-        android:layout_alignRight="@+id/editText1"
-        android:layout_below="@+id/editText1"
-        android:layout_marginTop="36dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:text="Detect your phone number" />
 
     <EditText
         android:id="@+id/editText1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="62dp"
+        android:layout_alignLeft="@+id/buttonDetectNumber"
+        android:layout_alignRight="@+id/buttonDetectNumber"
+        android:layout_below="@+id/buttonDetectNumber"
+        android:layout_marginTop="29dp"
         android:ems="10"
-        android:inputType="phone" >
-
-        <requestFocus />
-    </EditText>
+        android:inputType="phone" />
 
 </RelativeLayout>

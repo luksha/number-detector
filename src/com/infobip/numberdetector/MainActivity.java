@@ -7,6 +7,7 @@ import com.infobip.push.PushNotificationManager;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
@@ -30,6 +31,8 @@ public class MainActivity extends Activity {
 	private final String SENDER_ID = "447903975137";
 	private final String APPLICATION_ID = "1f7740a7a111";
 	private final String APPLICATION_SECRET = "2fc88a7bafd4";
+	
+	ProgressDialog progress;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.d(TAG, "onCreate() started.");
@@ -37,10 +40,13 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		((Button)findViewById(R.id.buttonDetectNumber)).setOnClickListener(mDetectNumberButtonListener);
 		editTextPhoneNumber = ((EditText)findViewById(R.id.editText1));
+		editTextPhoneNumber.setVisibility(View.GONE);
 		
 		if(!TextUtils.isEmpty(getIntent().getStringExtra(MSISDN))){
 			editTextPhoneNumber.setText(getIntent().getStringExtra(MSISDN));
 		}
+		
+		progress = new ProgressDialog(this);
 		
 		pushManager = new PushNotificationManager(MainActivity.this);
 		pushManager.initialize(SENDER_ID, APPLICATION_ID, APPLICATION_SECRET);
@@ -52,14 +58,14 @@ public class MainActivity extends Activity {
 			subscribeOnServer();
 		}
 		
-		
-		
 	}
 	
 	@Override
 	protected void onNewIntent(Intent intent) {
 		Log.d(TAG, "onNewIntent() started.");
 		setIntent(intent);
+		progress.dismiss();
+		editTextPhoneNumber.setVisibility(View.VISIBLE);
 		editTextPhoneNumber.setText(intent.getStringExtra(MSISDN));
 		super.onNewIntent(intent);
 	}
@@ -89,6 +95,10 @@ public class MainActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			Log.d(TAG, "User clicked Number Detect Button.");
+			progress.setTitle("Loading");
+			progress.setMessage("Wait while loading...");
+			progress.show();
+			progress.setCancelable(false);
 			SmsSendOperation sendSms = new SmsSendOperation(smsSentEventHandler, MainActivity.this, pushManager);
 			sendSms.run();
 		}
